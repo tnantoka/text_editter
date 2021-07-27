@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 
 import 'note_list.dart';
 import 'note.dart';
@@ -31,6 +32,8 @@ final initialProvider = FutureProvider<bool>((ref) async {
   notes.sort((a, b) => a.createdAt.compareTo(b.createdAt));
 
   ref.read(noteListProvider.notifier).set(notes);
+
+  await AppTrackingTransparency.requestTrackingAuthorization();
 
   return true;
 });

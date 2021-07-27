@@ -33,6 +33,8 @@ dependencies:
   hooks_riverpod: ^1.0.0-dev.6
   uuid:
   path_provider:
+  google_mobile_ads:
+  app_tracking_transparency:
 
 dev_dependencies:
   flutter_test:
