@@ -6,6 +6,8 @@
 
 A small text editor app with Flutter and [Riverpod](https://github.com/rrousselGit/river_pod).
 
+## Screenshots
+
 ![](/docs/light.png)
 ![](/docs/dark.png)
 
