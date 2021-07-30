@@ -24,7 +24,18 @@ class Home extends HookConsumerWidget {
     banner.load();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
+      appBar: AppBar(
+        title: const Text('Home'),
+        leading: IconButton(
+          icon: Icon(Icons.info_outlined),
+          onPressed: () {
+            showAboutDialog(
+              context: context,
+              applicationName: 'Text Editter',
+            );
+          },
+        ),
+      ),
       body: initial.when(
         data: (_) => Column(
           children: [
