@@ -5,6 +5,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'widgets/home.dart';
 import 'widgets/editor.dart';
+import 'widgets/layout.dart';
 import 'providers.dart';
 
 void main() {
@@ -29,30 +30,8 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData.dark(),
       initialRoute: '/',
       routes: {
-        '/': (context) => const Home(),
-      },
-      onGenerateRoute: (settings) {
-        if (settings.name == null) {
-          return null;
-        }
-
-        final split = settings.name!.split('/');
-
-        Widget? widget;
-        if (settings.name!.startsWith('/notes/') && split.length == 3) {
-          widget = ProviderScope(
-            overrides: [
-              currentNoteIdProvider.overrideWithValue(split.last),
-            ],
-            child: const Editor(),
-          );
-        }
-
-        if (widget == null) {
-          return null;
-        }
-
-        return MaterialPageRoute<void>(builder: (context) => widget!);
+        '/': (context) => const Layout(child: Home()),
+        '/edit': (context) => const Layout(child: Editor()),
       },
     );
   }

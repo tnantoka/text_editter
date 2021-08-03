@@ -21,6 +21,7 @@ void main() {
               ]),
             ),
             initialProvider.overrideWithValue(const AsyncValue.data(true)),
+            isLargeScreenProvider.overrideWithValue(false),
           ],
           child: const Home(),
         ),

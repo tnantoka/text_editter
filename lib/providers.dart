@@ -38,5 +38,6 @@ final initialProvider = FutureProvider<bool>((ref) async {
   return true;
 });
 
-final currentNoteIdProvider =
-    Provider<String>((ref) => throw UnimplementedError());
+final currentNoteIdProvider = StateProvider<String>((ref) => '');
+final isLargeScreenProvider =
+    Provider<bool>((ref) => throw UnimplementedError());

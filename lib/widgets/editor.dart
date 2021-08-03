@@ -10,33 +10,42 @@ class Editor extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final noteId = ref.watch(currentNoteIdProvider).state;
+    final isLargeScreen = ref.watch(isLargeScreenProvider);
     final noteList = ref.read(noteListProvider);
-    final noteId = ref.read(currentNoteIdProvider);
-    final note = noteList.firstWhere((note) => note.id == noteId);
+
+    final note = noteId.isEmpty
+        ? null
+        : noteList.firstWhere((note) => note.id == noteId);
 
     final nameController = useTextEditingController();
-    nameController.text = note.name;
+    nameController.text = note?.name ?? '';
 
     final textController = useTextEditingController();
-    textController.text = note.text;
+    textController.text = note?.text ?? '';
 
     return Scaffold(
       appBar: AppBar(
         actions: [
-          PopupMenuButton<String>(
-            initialValue: '',
-            icon: const Icon(Icons.more_vert),
-            onSelected: (value) {
-              ref.read(noteListProvider.notifier).delete(note.id);
-              Navigator.pop(context);
-            },
-            itemBuilder: (BuildContext context) => [
-              const PopupMenuItem(
-                child: Text('Delete'),
-                value: 'delete',
-              )
-            ],
-          ),
+          if (note != null)
+            PopupMenuButton<String>(
+              initialValue: '',
+              icon: const Icon(Icons.more_vert),
+              onSelected: (value) {
+                ref.read(currentNoteIdProvider).state = '';
+                ref.read(noteListProvider.notifier).delete(note.id);
+
+                if (!isLargeScreen) {
+                  Navigator.pop(context);
+                }
+              },
+              itemBuilder: (BuildContext context) => [
+                const PopupMenuItem(
+                  child: Text('Delete'),
+                  value: 'delete',
+                )
+              ],
+            ),
         ],
       ),
       body: SingleChildScrollView(
@@ -63,6 +72,7 @@ class Editor extends HookConsumerWidget {
                     .read(noteListProvider.notifier)
                     .update(id: noteId, name: nextName);
               },
+              enabled: note != null,
             ),
             TextField(
               maxLines: null,
@@ -86,6 +96,7 @@ class Editor extends HookConsumerWidget {
                     .read(noteListProvider.notifier)
                     .update(id: noteId, text: nextText);
               },
+              enabled: note != null,
             )
           ],
         ),
